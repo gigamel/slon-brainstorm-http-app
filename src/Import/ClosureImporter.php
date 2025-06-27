@@ -31,7 +31,7 @@ final class ClosureImporter
                 continue;
             }
             
-            foreach (glob($pattern) as $file) {
+            foreach (glob($pattern, GLOB_BRACE) as $file) {
                 $this->callClosure($file, ...$args);
             }
         }
