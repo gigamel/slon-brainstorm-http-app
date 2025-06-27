@@ -1,0 +1,31 @@
+{
+    "require": {
+        "slon/streams": "dev-main",
+        "slon/http-protocol": "dev-main",
+        "slon/http-router": "dev-main",
+        "slon/container": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "repositories": {
+        "slon/streams": {
+            "type": "vcs",
+            "url": "https://github.com/gigamel/slon-streams.git"
+        },
+        "slon/http-protocol": {
+            "type": "vcs",
+            "url": "https://github.com/gigamel/slon-http-protocol.git"
+        },
+        "slon/http-router": {
+            "type": "vcs",
+            "url": "https://github.com/gigamel/slon-http-router.git"
+        },
+        "slon/container": {
+            "type": "vcs",
+            "url": "https://github.com/gigamel/slon-container.git"
+        }
+    }
+}
