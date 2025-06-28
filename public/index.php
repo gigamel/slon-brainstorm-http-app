@@ -46,9 +46,12 @@ try {
     $router = $container->get('router');
 
     /**
-     * @var RouteShardInterface $router
+     * @var RouteShardInterface $routeShard
      */
     $routeShard = $router->handleRequest($request);
+    foreach ($routeShard->getSegments() as $name => $value) {
+        $request = $request->withAttribute($name, $value);
+    }
 
     $handler = $routeShard->getHandler();
 } catch (RouteNotFoundException) {
@@ -60,7 +63,6 @@ if ($container->has($handler)) {
 } else {
     $container = new $handler();
 }
-
 
 $response = $controller($request);
 

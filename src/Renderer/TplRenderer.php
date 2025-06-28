@@ -6,11 +6,7 @@ namespace App\Renderer;
 
 use RuntimeException;
 
-use function file_get_contents;
-use function is_scalar;
-use function is_string;
 use function sprintf;
-use function str_replace;
 
 final class TplRenderer
 {
@@ -36,24 +32,15 @@ final class TplRenderer
             ));
         }
         
-        $contents = file_get_contents($view);
-        if (false === $contents) {
-            throw new RuntimeException(sprintf(
-                'The view file "%s" cannot be included',
-                $view,
-            ));
-        }
+        extract($vars);
+        unset($vars);
         
-        foreach ($vars as $var => $replace) {
-            if (!is_string($var) || !is_scalar($replace)) {
-                continue;
-            }
-            
-            $contents = str_replace(
-                sprintf('{{ %s }}', $var),
-                (string) $replace,
-                $contents,
-            );
+        try {
+            \ob_start();
+            require $view;
+            $contents = \ob_get_contents();
+        } finally {
+            \ob_end_clean();
         }
         
         return $contents;

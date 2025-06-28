@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Sapi\Emmiter;
 use Slon\Container\Meta\MetaRegistryInterface;
 use Slon\Http\Router\Contract\RouterInterface;
 use Slon\Http\Router\Contract\RoutesCollectionInterface;
@@ -15,8 +14,5 @@ return [
     },
     'router' => static function (MetaRegistryInterface $registry): RouterInterface {
         return new Router($registry->get('routes'));
-    },
-    'sapi_emmiter' => static function (): Emmiter {
-        return new Emmiter();
     },
 ];
