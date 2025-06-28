@@ -29,27 +29,15 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h1 class="mb-3">Blog</h1>
+            <h1><?= $post->title; ?></h1>
             
-            <?php if (!$posts): ?>
-            <p>Empty list...</p>
+            <div class="contents mb-3"><?= $post->contents; ?></div>
+            
+            <?php if (isset($backward)): ?>
+            <p>
+              <a class="btn btn-primary" href="<?= $backward; ?>">Backward</a>
+            </p>
             <?php endif; ?>
-            
-            <?php foreach ($posts as $post): ?>
-            <hr />
-            <div class="post mt-3">
-              <h3><?= $post->title; ?></h3>
-              <p><?= $post->preview; ?></p>
-              <p><?= $post->preview; ?></p>
-              <p>
-                <a
-                  href="<?= $blogPostRoute->generate(['slug' => $post->slug]); ?>"
-                  class="btn btn-primary"
-                >More</a>
-              </p>
-            </div>
-            <?php endforeach; ?>
-            
           </div>
         </div>
       </div>
@@ -57,3 +45,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
   </body>
 </html>
+

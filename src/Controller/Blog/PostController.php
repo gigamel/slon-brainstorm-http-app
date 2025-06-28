@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slon\Http\Protocol\Response;
 use Slon\Http\Router\Contract\RoutesCollectionInterface;
 
-final class ListController
+final class PostController
 {
     private readonly TplRenderer $renderer;
     
@@ -25,29 +25,24 @@ final class ListController
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $page = $request->getAttribute('page');
+        $post = $this->repository->getBySlug(
+            $request->getAttribute('slug'),
+        );
         
-        if (1 === $page) {
-            return new Response(
-                '',
-                302,
-                headers: [
-                    'Location' => $this->routes->get('blog_list')->generate(),
-                ],
-            );
+        if (!$post) {
+            throw new \RuntimeException('Page Not Found');
         }
         
-        if (null === $page) {
-            $page = 1;
-        }
+        $backward = $request->getQueryParams()['from']
+            ?? $this->routes->get('blog_list')->generate();
         
         return new Response(
             $this->renderer->render(
-                'list.tpl',
+                'post.tpl',
                 [
-                    'posts' => $this->repository->getList($page),
-                    'blogPostRoute' => $this->routes->get('blog_post'),
-                ]
+                    'post' => $post,
+                    'backward' => $backward,
+                ],
             ),
             headers: [
                 'Content-Type' => 'text/html',

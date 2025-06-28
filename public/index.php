@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Controller\ErrorController;
+use App\Controller\Site\ErrorController;
 use App\Kernel;
 use App\Provider\ArrayConfigsProvider;
 use Slon\Container\Container;

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog</title>
+    <title>Error</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   </head>
   <body>
@@ -29,27 +29,8 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <h1 class="mb-3">Blog</h1>
-            
-            <?php if (!$posts): ?>
-            <p>Empty list...</p>
-            <?php endif; ?>
-            
-            <?php foreach ($posts as $post): ?>
-            <hr />
-            <div class="post mt-3">
-              <h3><?= $post->title; ?></h3>
-              <p><?= $post->preview; ?></p>
-              <p><?= $post->preview; ?></p>
-              <p>
-                <a
-                  href="<?= $blogPostRoute->generate(['slug' => $post->slug]); ?>"
-                  class="btn btn-primary"
-                >More</a>
-              </p>
-            </div>
-            <?php endforeach; ?>
-            
+            <h1>Page Not Found</h1>
+            <p>This is example of HTTP App built by Slon Framework...</p>
           </div>
         </div>
       </div>

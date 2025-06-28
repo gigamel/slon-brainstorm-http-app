@@ -73,4 +73,15 @@ final class PostRepository
         
         return $this->count;
     }
+    
+    public function getBySlug(string $slug): ?Post
+    {
+        foreach (self::POSTS as $post) {
+            if ($slug === ($post['slug'] ?? null)) {
+                return new Post(...$post);
+            }
+        }
+        
+        return null;
+    }
 }
