@@ -34,7 +34,7 @@
             <form action="" name="mailer" method="POST" autocomplete="off">
               <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>
-                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+                <input type="email" class="form-control" name="email" id="email">
               </div>
               <div class="mb-3">
                 <label for="message" class="form-label">Message</label>

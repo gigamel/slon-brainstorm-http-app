@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Controller\Auth\LoginController;
 use App\Controller\Blog\ListController;
 use App\Controller\Blog\PostController;
 use App\Controller\Site\ContactController;
@@ -26,6 +27,11 @@ return static function (MetaRegistryInterface $registry): void {
     
     $registry->addMeta(
         (new MetaInstance(ErrorController::class))
+            ->addArgument('renderer', new Reference('tpl_renderer')),
+    );
+    
+    $registry->addMeta(
+        (new MetaInstance(LoginController::class))
             ->addArgument('renderer', new Reference('tpl_renderer')),
     );
     

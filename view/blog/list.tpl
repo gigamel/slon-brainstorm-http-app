@@ -23,6 +23,9 @@
             </li>
           </ul>
         </div>
+        <div class="d-flex">
+          <a href="/login/" class="btn btn-outline-primary">Login</a></div>
+        </div>
       </div>
     </nav>
     <main>
