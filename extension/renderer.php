@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Renderer\BlocksExtension;
 use App\Renderer\RouteExtension;
 use Slon\Container\Meta\MetaRegistryInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
@@ -20,6 +21,10 @@ return static function (MetaRegistryInterface $registry): void {
     
     $phpRenderer = new PhpRenderer();
     $phpRenderer->addExtension(new QuotesExtension());
+    
+    $phpRenderer->addExtension(
+        new BlocksExtension($registry->getParameter('views.dir')),
+    );
     
     $renderer->addRenderer($phpRenderer);
     
