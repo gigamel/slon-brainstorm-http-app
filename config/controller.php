@@ -45,8 +45,7 @@ return static function (MetaRegistryInterface $registry): void {
     $registry->addMeta(
         (new MetaInstance(PostController::class))
             ->addArgument('renderer', new Reference('renderer'))
-            ->addArgument('repository', new Reference(PostRepository::class))
-            ->addArgument('routes', new Reference('routes')),
+            ->addArgument('repository', new Reference(PostRepository::class)),
     );
     
 };

@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Slon\Http\Protocol\Response;
-use Slon\Http\Router\Contract\RoutesCollectionInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
 
 final class PostController
@@ -17,7 +16,6 @@ final class PostController
     public function __construct(
         private readonly RendererCompositeInterface $renderer,
         private PostRepository $repository,
-        private readonly RoutesCollectionInterface $routes,
     ) {}
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
@@ -30,15 +28,12 @@ final class PostController
             throw new RuntimeException('Page Not Found');
         }
         
-        $backward = $request->getQueryParams()['from']
-            ?? $this->routes->get('blog_list')->generate();
-        
         return new Response(
             $this->renderer->render(
                 'blog/post.php',
                 [
                     'post' => $post,
-                    'backward' => $backward,
+                    'backward' => $request->getQueryParams()['from'] ?? null,
                 ],
             ),
             headers: [

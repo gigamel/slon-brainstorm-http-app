@@ -42,8 +42,7 @@ final class ListController
                 'blog/list.php',
                 [
                     'posts' => $this->repository->getList($page),
-                    'blogPostRoute' => $this->routes->get('blog_post'),
-                ]
+                ],
             ),
             headers: [
                 'Content-Type' => 'text/html',

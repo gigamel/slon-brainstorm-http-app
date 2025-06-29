@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/blog/">Blog</a>
+              <a class="nav-link" href="<?= $this->route('blog_list'); ?>">Blog</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/contact/">Contact</a>
+              <a class="nav-link" href="<?= $this->route('contact'); ?>">Contact</a>
             </li>
           </ul>
         </div>

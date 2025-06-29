@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Renderer\RouteExtension;
 use Slon\Container\Meta\MetaRegistryInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
 use Slon\Renderer\PhpRenderer;
@@ -21,4 +22,10 @@ return static function (MetaRegistryInterface $registry): void {
     $phpRenderer->addExtension(new QuotesExtension());
     
     $renderer->addRenderer($phpRenderer);
+    
+    if ($registry->has('routes')) {
+        $phpRenderer->addExtension(
+            new RouteExtension($registry->get('routes')),
+        );
+    }
 };

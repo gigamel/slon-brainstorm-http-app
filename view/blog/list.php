@@ -16,15 +16,15 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/blog/">Blog</a>
+              <a class="nav-link" href="<?= $this->route('blog_list'); ?>">Blog</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/contact/">Contact</a>
+              <a class="nav-link" href="<?= $this->route('contact'); ?>">Contact</a>
             </li>
           </ul>
         </div>
         <div class="d-flex">
-          <a href="/login/" class="btn btn-outline-primary">Login</a></div>
+          <a href="<?= $this->route('login'); ?>" class="btn btn-outline-primary">Login</a></div>
         </div>
       </div>
     </nav>
@@ -46,7 +46,7 @@
               <p><?= $post->preview; ?></p>
               <p>
                 <a
-                  href="<?= $blogPostRoute->generate(['slug' => $post->slug]); ?>"
+                  href="<?= $this->route('blog_post', ['slug' => $post->slug]); ?>"
                   class="btn btn-primary"
                 >More</a>
               </p>
