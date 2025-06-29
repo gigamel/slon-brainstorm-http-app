@@ -17,34 +17,34 @@ return static function (MetaRegistryInterface $registry): void {
     
     $registry->addMeta(
         (new MetaInstance(SiteController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer')),
+            ->addArgument('renderer', new Reference('renderer')),
     );
     
     $registry->addMeta(
         (new MetaInstance(ContactController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer')),
+            ->addArgument('renderer', new Reference('renderer')),
     );
     
     $registry->addMeta(
         (new MetaInstance(ErrorController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer')),
+            ->addArgument('renderer', new Reference('renderer')),
     );
     
     $registry->addMeta(
         (new MetaInstance(LoginController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer')),
+            ->addArgument('renderer', new Reference('renderer')),
     );
     
     $registry->addMeta(
         (new MetaInstance(ListController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer'))
+            ->addArgument('renderer', new Reference('renderer'))
             ->addArgument('repository', new Reference(PostRepository::class))
             ->addArgument('routes', new Reference('routes')),
     );
     
     $registry->addMeta(
         (new MetaInstance(PostController::class))
-            ->addArgument('renderer', new Reference('tpl_renderer'))
+            ->addArgument('renderer', new Reference('renderer'))
             ->addArgument('repository', new Reference(PostRepository::class))
             ->addArgument('routes', new Reference('routes')),
     );

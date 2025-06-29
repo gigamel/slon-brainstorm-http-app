@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controller\Site;
 
-use App\Renderer\TplRenderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slon\Http\Protocol\Response;
+use Slon\Renderer\Contract\RendererCompositeInterface;
 
 final class ErrorController
 {
-    private readonly TplRenderer $renderer;
-    
-    public function __construct(TplRenderer $renderer)
-    {
-        $this->renderer = $renderer->withNamespace('site');
-    }
+    public function __construct(
+        private readonly RendererCompositeInterface $renderer
+    ) {}
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         return new Response(
-            $this->renderer->render('error.tpl'),
+            $this->renderer->render('site/error.php'),
             404,
             headers: [
                 'Content-Type' => 'text/html',

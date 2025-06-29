@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controller\Blog;
 
-use App\Renderer\TplRenderer;
 use App\Service\Blog\PostRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 use Slon\Http\Protocol\Response;
 use Slon\Http\Router\Contract\RoutesCollectionInterface;
+use Slon\Renderer\Contract\RendererCompositeInterface;
 
 final class PostController
 {
-    private readonly TplRenderer $renderer;
-    
     public function __construct(
-        TplRenderer $renderer,
+        private readonly RendererCompositeInterface $renderer,
         private PostRepository $repository,
         private readonly RoutesCollectionInterface $routes,
-    ) {
-        $this->renderer = $renderer->withNamespace('blog');
-    }
+    ) {}
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
@@ -30,7 +27,7 @@ final class PostController
         );
         
         if (!$post) {
-            throw new \RuntimeException('Page Not Found');
+            throw new RuntimeException('Page Not Found');
         }
         
         $backward = $request->getQueryParams()['from']
@@ -38,7 +35,7 @@ final class PostController
         
         return new Response(
             $this->renderer->render(
-                'post.tpl',
+                'blog/post.php',
                 [
                     'post' => $post,
                     'backward' => $backward,

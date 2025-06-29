@@ -29,6 +29,7 @@ $registry = new MetaRegistry(
 
 $kernel->import(
     $kernel->pwd('config/*.php'),
+    $kernel->pwd('extension/*.php'),
 )->withArgs($registry);
 
 $container = new Container($registry);
