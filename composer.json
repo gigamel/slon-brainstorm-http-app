@@ -4,7 +4,8 @@
         "slon/http-protocol": "dev-main",
         "slon/http-router": "dev-main",
         "slon/container": "dev-main",
-        "slon/renderer": "dev-main"
+        "slon/renderer": "dev-main",
+        "slon/http-kernel": "dev-main"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +32,10 @@
         "slon/renderer": {
             "type": "vcs",
             "url": "https://github.com/gigamel/slon-renderer.git"
+        },
+        "slon/http-kernel": {
+            "type": "vcs",
+            "url": "https://github.com/gigamel/slon-http-kernel.git"
         }
     }
 }
