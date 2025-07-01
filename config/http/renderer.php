@@ -9,7 +9,7 @@ use Slon\Renderer\RendererComposite;
 
 return static function (MetaRegistryInterface $registry): void {
     
-    $registry->setParameter('views.dir', __DIR__ . '/../view');
+    $registry->setParameter('views.dir', __DIR__ . '/../../view');
     
     $registry->addMeta(
         (new MetaInstance(RendererComposite::class, 'renderer'))

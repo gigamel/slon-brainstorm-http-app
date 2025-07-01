@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Renderer;
+namespace Extension\Slon\Renderer\Extension;
 
 use Slon\Http\Router\Contract\RoutesCollectionInterface;
 use Slon\Renderer\Contract\ExtensionInterface;
 
-final readonly class RouteExtension implements ExtensionInterface
+final readonly class Route implements ExtensionInterface
 {
     public function __construct(
         private RoutesCollectionInterface $routes,

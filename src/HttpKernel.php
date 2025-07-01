@@ -7,6 +7,7 @@ namespace App;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slon\Container\Container;
+use Slon\Container\Meta\MetaRegistryInterface;
 use Slon\Container\MetaRegistry;
 use Slon\Http\Kernel\AbstractKernel;
 use Slon\Http\Kernel\Configuration\ArrayProvider;
@@ -31,16 +32,11 @@ final class HttpKernel extends AbstractKernel
             return $this->container;
         }
         
-        $registry = new MetaRegistry(
-            (new ArrayProvider(
-                $this->pwd('kernel/common/*.php'),
-                $this->pwd('kernel/http/*.php'),
-            ))->getArray(),
-        );
+        $registry = new MetaRegistry();
         
         $this->import(
+            $this->pwd('config/http/*.php'),
             $this->pwd('config/*.php'),
-            $this->pwd('extension/*.php'),
         )->withArgs($registry);
         
         $this->container = new Container($registry);
@@ -48,6 +44,8 @@ final class HttpKernel extends AbstractKernel
         $this->import(
             $this->pwd('routes/*.php'),
         )->withArgs($this->container->get('routes'));
+        
+        $this->loadExtensions($registry);
         
         return $this->container;
     }
@@ -65,5 +63,16 @@ final class HttpKernel extends AbstractKernel
     private function pwd(?string $path = null): string
     {
         return $this->pwd . ($path ? '/' . $path : '');
+    }
+    
+    private function loadExtensions(MetaRegistryInterface $registry): void
+    {
+        $extensions = (new ArrayProvider(
+            $this->pwd('extension/extensions.php'),
+        ))->getArray();
+        
+        foreach ($extensions as $extension => $configs) {
+            (new $extension())->extends($registry, $configs);
+        }
     }
 }
