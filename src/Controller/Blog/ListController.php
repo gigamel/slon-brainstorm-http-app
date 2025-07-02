@@ -23,23 +23,15 @@ final class ListController
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $page = $request->getAttribute('page');
-        
-        if (1 === $page) {
-            return new Response(
-                '',
-                302,
-                headers: [
-                    'Location' => $this->routes->get('blog_list')->generate(),
-                ],
-            );
+        if ($redirectResponse = $this->firstPageProcess($request)) {
+            return $redirectResponse;
         }
         
-        if (null === $page) {
-            $page = 1;
-        }
-        
-        $paginator = new Paginator($this->repository->getCount(), $page, 3);
+        $paginator = new Paginator(
+            $this->repository->getCount(),
+            $request->getAttribute('page') ?? 1,
+            3,
+        );
         
         if ($paginator->isLimited()) {
             throw new HttpException('Page Not Found', 404);
@@ -54,11 +46,28 @@ final class ListController
                     ),
                     'paginator' => $paginator,
                     'route' => $this->routes->get('blog_list'),
+                    'page' => $request->getUri()->getPath(),
                 ],
             ),
             headers: [
                 'Content-Type' => 'text/html',
             ],
         );
+    }
+    
+    private function firstPageProcess(
+        ServerRequestInterface $request,
+    ): ?ResponseInterface {
+        if ($request->getAttribute('page') === 1) {
+            return new Response(
+                '',
+                302,
+                headers: [
+                    'Location' => $this->routes->get('blog_list')->generate(),
+                ],
+            );
+        }
+        
+        return null;
     }
 }

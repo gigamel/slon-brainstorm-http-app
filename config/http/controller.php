@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Controller\Admin\DashboardController;
 use App\Controller\Auth\LoginController;
+use App\Controller\Auth\LogoutController;
 use App\Controller\Blog\ListController;
 use App\Controller\Blog\PostController;
 use App\Controller\Site\ContactController;
@@ -22,30 +24,40 @@ return static function (MetaRegistryInterface $registry): void {
     
     $registry->addMeta(
         (new MetaInstance(ContactController::class))
-            ->addArgument('renderer', new Reference('renderer')),
+            ->extends(SiteController::class),
     );
     
     $registry->addMeta(
         (new MetaInstance(ErrorController::class))
-            ->addArgument('renderer', new Reference('renderer')),
+            ->extends(SiteController::class),
     );
     
     $registry->addMeta(
         (new MetaInstance(LoginController::class))
-            ->addArgument('renderer', new Reference('renderer')),
+            ->extends(SiteController::class),
+    );
+    
+    $registry->addMeta(
+        (new MetaInstance(LogoutController::class))
+            ->extends(SiteController::class),
     );
     
     $registry->addMeta(
         (new MetaInstance(ListController::class))
-            ->addArgument('renderer', new Reference('renderer'))
+            ->extends(SiteController::class)
             ->addArgument('repository', new Reference(PostRepository::class))
             ->addArgument('routes', new Reference('routes')),
     );
     
     $registry->addMeta(
         (new MetaInstance(PostController::class))
-            ->addArgument('renderer', new Reference('renderer'))
+            ->extends(SiteController::class)
             ->addArgument('repository', new Reference(PostRepository::class)),
+    );
+    
+    $registry->addMeta(
+        (new MetaInstance(DashboardController::class))
+            ->extends(SiteController::class),
     );
     
 };

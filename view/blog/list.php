@@ -14,7 +14,7 @@
   <p><?= $post->preview; ?></p>
   <p>
     <a
-      href="<?= $this->route('blog_post', ['slug' => $post->slug]); ?>"
+      href="<?= $this->route('blog_post', ['slug' => $post->slug]); ?>?from=<?= $page; ?>"
       class="btn btn-primary"
     >More</a>
   </p>
