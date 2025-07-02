@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Extension\Slon\Renderer;
 
 use Extension\Slon\Renderer\Extension\Blocks;
+use Extension\Slon\Renderer\Extension\Pagination;
 use Extension\Slon\Renderer\Extension\Route;
 use Slon\Container\Meta\MetaRegistryInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
@@ -29,6 +30,9 @@ final class RendererExtension
 
         $phpRenderer = new PhpRenderer();
         $phpRenderer->addExtension(new QuotesExtension());
+        $phpRenderer->addExtension(
+            new Pagination($registry->getParameter('views.dir')),
+        );
 
         $phpRenderer->addExtension(
             new Blocks($registry->getParameter('views.dir')),

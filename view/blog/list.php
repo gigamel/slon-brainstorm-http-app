@@ -20,5 +20,7 @@
   </p>
 </div>
 <?php endforeach; ?>
-            
+
+<?= $this->pagination($this, 'layout/pagination.php', $paginator, $route); ?>
+
 <?= $this->block($this, 'layout/footer.php'); ?>

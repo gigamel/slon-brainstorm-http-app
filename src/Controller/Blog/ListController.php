@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Blog;
 
 use App\Service\Blog\PostRepository;
+use App\Widget\Paginator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slon\Http\Kernel\Exception\HttpException;
 use Slon\Http\Protocol\Response;
 use Slon\Http\Router\Contract\RoutesCollectionInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
@@ -37,11 +39,21 @@ final class ListController
             $page = 1;
         }
         
+        $paginator = new Paginator($this->repository->getCount(), $page, 3);
+        
+        if ($paginator->isLimited()) {
+            throw new HttpException('Page Not Found', 404);
+        }
+        
         return new Response(
             $this->renderer->render(
                 'blog/list.php',
                 [
-                    'posts' => $this->repository->getList($page),
+                    'posts' => $this->repository->getList(
+                        $paginator->getPage(),
+                    ),
+                    'paginator' => $paginator,
+                    'route' => $this->routes->get('blog_list'),
                 ],
             ),
             headers: [
