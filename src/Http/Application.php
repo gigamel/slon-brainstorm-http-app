@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slon\Http\Kernel\Contract\ApplicationInterface;
 use Slon\Http\Kernel\Exception\HttpException;
@@ -13,10 +14,11 @@ use Slon\Http\Router\Exception\RouteNotFoundException;
 final class Application implements ApplicationInterface
 {
     public function __construct(
+        private ControllerResolver $resolver,
         private RouterInterface $router,
     ) {}
 
-    public function handle(ServerRequestInterface $request): ServerRequestInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         try {
             $routeShard = $this->router->handleRequest($request);
@@ -28,6 +30,6 @@ final class Application implements ApplicationInterface
             $request = $request->withAttribute($name, $value);
         }
         
-        return $request->withAttribute('_handler', $routeShard->getHandler());
+        return $this->resolver->resolve($routeShard->getHandler())($request);
     }
 }
