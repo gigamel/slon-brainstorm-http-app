@@ -5,7 +5,9 @@
         "slon/http-router": "dev-main",
         "slon/container": "dev-main",
         "slon/renderer": "dev-main",
-        "slon/http-kernel": "dev-main"
+        "slon/http-kernel": "dev-main",
+        "psr/http-server-middleware": "^1.0",
+        "psr/http-server-handler": "^1.0"
     },
     "autoload": {
         "psr-4": {
