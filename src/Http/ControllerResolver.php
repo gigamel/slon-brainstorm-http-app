@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Slon\Container\Meta\MetaRegistryInterface;
+use Slon\Container\Contract\RegistryInterface;
 
 final readonly class ControllerResolver
 {
     public function __construct(
-        private MetaRegistryInterface $container,
+        private RegistryInterface $container,
     ) {}
     
     public function resolve(string $className): object

@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use App\Service\Blog\PostRepository;
-use Slon\Container\Meta\MetaRegistryInterface;
-use Slon\Container\MetaInstance;
+use Slon\Container\Contract\RegistryInterface;
+use Slon\Container\Instance;
 
-return static function (MetaRegistryInterface $registry): void {
+return static function (RegistryInterface $registry): void {
     
-    $registry->addMeta(
-        (new MetaInstance(PostRepository::class)),
+    $registry->add(
+        (new Instance(PostRepository::class)),
     );
     
 };

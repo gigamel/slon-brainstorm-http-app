@@ -7,7 +7,7 @@ namespace Extension\Slon\Renderer;
 use Extension\Slon\Renderer\Extension\Blocks;
 use Extension\Slon\Renderer\Extension\Pagination;
 use Extension\Slon\Renderer\Extension\Route;
-use Slon\Container\Meta\MetaRegistryInterface;
+use Slon\Container\Contract\RegistryInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
 use Slon\Renderer\PhpRenderer;
 use Slon\Renderer\QuotesExtension;
@@ -15,7 +15,7 @@ use Slon\Renderer\QuotesExtension;
 final class RendererExtension
 {
     public function extends(
-        MetaRegistryInterface $registry,
+        RegistryInterface $registry,
         array $configs = [],
     ): void {
         
@@ -31,11 +31,11 @@ final class RendererExtension
         $phpRenderer = new PhpRenderer();
         $phpRenderer->addExtension(new QuotesExtension());
         $phpRenderer->addExtension(
-            new Pagination($registry->getParameter('views.dir')),
+            new Pagination($registry->getOption('views.dir')),
         );
 
         $phpRenderer->addExtension(
-            new Blocks($registry->getParameter('views.dir')),
+            new Blocks($registry->getOption('views.dir')),
         );
 
         $renderer->addRenderer($phpRenderer);

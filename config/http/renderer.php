@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-use Slon\Container\Meta\MetaRegistryInterface;
-use Slon\Container\MetaInstance;
-use Slon\Container\Reference\ParameterReference;
+use Slon\Container\Contract\RegistryInterface;
+use Slon\Container\Instance;
+use Slon\Container\Reference\OptionReference;
 use Slon\Renderer\RendererComposite;
 
-return static function (MetaRegistryInterface $registry): void {
+return static function (RegistryInterface $registry): void {
     
-    $registry->setParameter('views.dir', __DIR__ . '/../../view');
+    $registry->addOption('views.dir', __DIR__ . '/../../view');
     
-    $registry->addMeta(
-        (new MetaInstance(RendererComposite::class, 'renderer'))
-            ->addArgument('viewsDir', new ParameterReference('views.dir')),
+    $registry->add(
+        (new Instance(RendererComposite::class, 'renderer'))
+            ->argument('viewsDir', new OptionReference('views.dir')),
     );
 };

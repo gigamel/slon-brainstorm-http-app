@@ -7,8 +7,8 @@ namespace App;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slon\Container\Container;
-use Slon\Container\Meta\MetaRegistryInterface;
-use Slon\Container\MetaRegistry;
+use Slon\Container\Contract\RegistryInterface;
+use Slon\Container\Registry;
 use Slon\Http\Kernel\AbstractKernel;
 use Slon\Http\Kernel\Configuration\ArrayProvider;
 use Slon\Http\Kernel\Import\ClosureImporter;
@@ -32,7 +32,7 @@ final class HttpKernel extends AbstractKernel
             return $this->container;
         }
         
-        $registry = new MetaRegistry();
+        $registry = new Registry();
         
         $this->import(
             $this->pwd('config/http/*.php'),
@@ -65,7 +65,7 @@ final class HttpKernel extends AbstractKernel
         return $this->pwd . ($path ? '/' . $path : '');
     }
     
-    private function loadExtensions(MetaRegistryInterface $registry): void
+    private function loadExtensions(RegistryInterface $registry): void
     {
         $extensions = (new ArrayProvider(
             $this->pwd('extension/extensions.php'),

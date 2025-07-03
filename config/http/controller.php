@@ -11,52 +11,52 @@ use App\Controller\Site\ContactController;
 use App\Controller\Site\ErrorController;
 use App\Controller\Site\SiteController;
 use App\Service\Blog\PostRepository;
-use Slon\Container\Meta\MetaRegistryInterface;
-use Slon\Container\MetaInstance;
+use Slon\Container\Contract\RegistryInterface;
+use Slon\Container\Instance;
 use Slon\Container\Reference;
 
-return static function (MetaRegistryInterface $registry): void {
+return static function (RegistryInterface $registry): void {
     
-    $registry->addMeta(
-        (new MetaInstance(SiteController::class))
-            ->addArgument('renderer', new Reference('renderer')),
+    $registry->add(
+        (new Instance(SiteController::class))
+            ->argument('renderer', new Reference('renderer')),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(ContactController::class))
+    $registry->add(
+        (new Instance(ContactController::class))
             ->extends(SiteController::class),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(ErrorController::class))
+    $registry->add(
+        (new Instance(ErrorController::class))
             ->extends(SiteController::class),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(LoginController::class))
+    $registry->add(
+        (new Instance(LoginController::class))
             ->extends(SiteController::class),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(LogoutController::class))
+    $registry->add(
+        (new Instance(LogoutController::class))
             ->extends(SiteController::class),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(ListController::class))
+    $registry->add(
+        (new Instance(ListController::class))
             ->extends(SiteController::class)
-            ->addArgument('repository', new Reference(PostRepository::class))
-            ->addArgument('routes', new Reference('routes')),
+            ->argument('repository', new Reference(PostRepository::class))
+            ->argument('routes', new Reference('routes')),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(PostController::class))
+    $registry->add(
+        (new Instance(PostController::class))
             ->extends(SiteController::class)
-            ->addArgument('repository', new Reference(PostRepository::class)),
+            ->argument('repository', new Reference(PostRepository::class)),
     );
     
-    $registry->addMeta(
-        (new MetaInstance(DashboardController::class))
+    $registry->add(
+        (new Instance(DashboardController::class))
             ->extends(SiteController::class),
     );
     
