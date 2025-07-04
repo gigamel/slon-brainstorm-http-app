@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Container\Container;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slon\Container\Container;
-use Slon\Container\Contract\RegistryInterface;
-use Slon\Container\Registry;
 use Slon\Http\Kernel\AbstractKernel;
 use Slon\Http\Kernel\Configuration\ArrayProvider;
 use Slon\Http\Kernel\Import\ClosureImporter;
 use Slon\Http\Protocol\Factory\ServerRequestFactory;
+use Slon\Http\Router\Contract\RoutesCollectionInterface;
 
 final class HttpKernel extends AbstractKernel
 {
@@ -32,20 +31,18 @@ final class HttpKernel extends AbstractKernel
             return $this->container;
         }
         
-        $registry = new Registry();
+        $this->container = new Container();
         
         $this->import(
-            $this->pwd('config/http/*.php'),
+            $this->pwd('config/new/*.php'),
             $this->pwd('config/*.php'),
-        )->withArgs($registry);
-        
-        $this->container = new Container($registry);
+        )->withArgs($this->container);
         
         $this->import(
             $this->pwd('routes/*.php'),
-        )->withArgs($this->container->get('routes'));
+        )->withArgs($this->container->get(RoutesCollectionInterface::class));
         
-        $this->loadExtensions($registry);
+        $this->loadExtensions();
         
         return $this->container;
     }
@@ -65,14 +62,14 @@ final class HttpKernel extends AbstractKernel
         return $this->pwd . ($path ? '/' . $path : '');
     }
     
-    private function loadExtensions(RegistryInterface $registry): void
+    private function loadExtensions(): void
     {
         $extensions = (new ArrayProvider(
             $this->pwd('extension/extensions.php'),
         ))->getArray();
         
         foreach ($extensions as $extension => $configs) {
-            (new $extension())->extends($registry, $configs);
+            (new $extension())->extends($this->container, $configs);
         }
     }
 }

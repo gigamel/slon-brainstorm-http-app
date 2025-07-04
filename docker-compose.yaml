@@ -1,0 +1,22 @@
+name: slon_http_app
+
+services:
+  php83:
+    container_name: php83_slon
+    build:
+      context: docker
+      dockerfile: php83.Dockerfile
+    ports:
+      - 9000:9000
+    tty: true
+    volumes:
+      - .:/var/www/slon-http-app
+      
+  nginx:
+    container_name: nginx_slon
+    image: nginx:latest
+    ports:
+      - 8000:80
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - .:/var/www/slon-http-app

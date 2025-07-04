@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Container\Container;
 use App\Service\Blog\PostRepository;
-use Slon\Container\Contract\RegistryInterface;
-use Slon\Container\Instance;
 
-return static function (RegistryInterface $registry): void {
+return static function (Container $container): void {
     
-    $registry->add(
-        (new Instance(PostRepository::class)),
-    );
+    $container->add(PostRepository::class);
     
 };

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Extension\Slon\Renderer;
 
+use App\Container\Config;
 use Extension\Slon\Renderer\Extension\Blocks;
 use Extension\Slon\Renderer\Extension\Pagination;
 use Extension\Slon\Renderer\Extension\Route;
-use Slon\Container\Contract\RegistryInterface;
+use Psr\Container\ContainerInterface;
+use Slon\Http\Router\Contract\RoutesCollectionInterface;
 use Slon\Renderer\Contract\RendererCompositeInterface;
 use Slon\Renderer\PhpRenderer;
 use Slon\Renderer\QuotesExtension;
@@ -15,34 +17,33 @@ use Slon\Renderer\QuotesExtension;
 final class RendererExtension
 {
     public function extends(
-        RegistryInterface $registry,
+        ContainerInterface $container,
         array $configs = [],
     ): void {
         
-        if (!$registry->has('renderer')) {
+        if (!$container->has(RendererCompositeInterface::class)) {
             return;
         }
 
-        $renderer = $registry->get('renderer');
-        if (!$renderer instanceof RendererCompositeInterface) {
-            return;
-        }
+        $renderer = $container->get(RendererCompositeInterface::class);
+        
+        $configs = $container->get(Config::class);
 
         $phpRenderer = new PhpRenderer();
         $phpRenderer->addExtension(new QuotesExtension());
         $phpRenderer->addExtension(
-            new Pagination($registry->getOption('views.dir')),
+            new Pagination($configs->getOption('views.dir')),
         );
 
         $phpRenderer->addExtension(
-            new Blocks($registry->getOption('views.dir')),
+            new Blocks($configs->getOption('views.dir')),
         );
 
         $renderer->addRenderer($phpRenderer);
 
-        if ($registry->has('routes')) {
+        if ($container->has(RoutesCollectionInterface::class)) {
             $phpRenderer->addExtension(
-                new Route($registry->get('routes')),
+                new Route($container->get(RoutesCollectionInterface::class)),
             );
         }
         
